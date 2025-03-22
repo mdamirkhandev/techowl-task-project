@@ -20,6 +20,10 @@ Route::middleware(['auth', 'role:admin'])->get('/admin/dashboard', function () {
     return view('admin.dashboard');
 })->name('admin.dashboard');
 
+Route::middleware(['auth', 'role:admin'])->get('/admin/users', function () {
+    return view('admin.users');
+})->name('admin.users');
+
 Route::middleware(['auth', 'role:manager'])->get('/manager/dashboard', function () {
     return view('manager.dashboard');
 })->name('manager.dashboard');

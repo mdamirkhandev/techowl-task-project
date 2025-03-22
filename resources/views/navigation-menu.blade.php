@@ -14,6 +14,9 @@
                         <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
                             {{ __('Admin Dashboard') }}
                         </x-nav-link>
+                        <x-nav-link href="{{ route('admin.users') }}" :active="request()->routeIs('admin.users')">
+                            {{ __('Create User') }}
+                        </x-nav-link>
                     @endif
                 
                     @if(auth()->user()->hasRole('manager'))

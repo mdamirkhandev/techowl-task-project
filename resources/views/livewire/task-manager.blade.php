@@ -3,8 +3,23 @@
     {{-- ✅ Left Column - Task Form --}}
     <div class="col-span-3 space-y-6">
         <h2 class="text-lg font-semibold text-gray-800">Create Task</h2>
+        @if (session()->has('success'))
+        <div class="p-3 bg-green-200 text-green-800 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session()->has('task_created'))
+    <div class="bg-green-500 text-white p-3 rounded-md">
+        {{ session('task_created') }}
+    </div>
+@endif
 
-        <form wire:submit.prevent="createTask" class="space-y-4">
+@if (session()->has('task_assigned'))
+    <div class="bg-blue-500 text-white p-3 rounded-md">
+        {{ session('task_assigned') }}
+    </div>
+@endif
+        <form wire:submit.prevent="{{ $isEditing ? 'updateTask' : 'createTask' }}" class="space-y-4">
             {{-- ✅ Title --}}
             <div>
                 <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
@@ -14,7 +29,7 @@
                     <span class="text-red-500 text-sm">{{ $message }}</span> 
                 @enderror
             </div>
-
+ 
             {{-- ✅ Description --}}
             <div>
                 <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
@@ -43,7 +58,7 @@
             {{-- ✅ Submit Button --}}
             <button type="submit"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition">
-                Create Task
+                {{ $isEditing ? 'Update Task' : 'Create Task' }}
             </button>
         </form>
     </div>
@@ -107,9 +122,10 @@
                                 {{-- ✅ Actions --}}
                                 @can('delete-task')
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <button wire:click="editTask({{ $task->id }})"  class="text-blue-500 hover:text-blue-700 px-2">✏️ Edit</button>
                                     <button wire:click="deleteTask({{ $task->id }})"
                                         class="text-red-500 hover:text-red-700 transition duration-150 ease-in-out">
-                                        ❌
+                                        🗑️ Delete
                                     </button>
                                 </td>
                                 @endcan
